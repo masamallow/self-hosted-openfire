@@ -1,0 +1,27 @@
+services:
+  openfire:
+    container_name: self-hosted-openfire
+    image: nasqueron/openfire:4.8.0
+    platform: linux/amd64
+    ports:
+      - 9090:9090
+      - 5222:5222
+      - 7777:7777
+    volumes:
+      - ./openfire:/var/lib/openfire
+    depends_on:
+      - db
+    restart: unless-stopped
+  db:
+    container_name: openfire-db
+    image: mysql:8.4.0
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: unless-stopped

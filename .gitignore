@@ -3,3 +3,13 @@
 
 ### VisualStudioCode ###
 .vscode/
+
+### Generated files
+# openfire
+/openfire/
+
+# mysql
+/db/data/
+
+### Sensitive or high-churn files
+.env
