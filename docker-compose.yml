@@ -1,0 +1,53 @@
+services:
+  openfire:
+    container_name: self-hosted-openfire
+    image: nasqueron/openfire:4.8.0
+    platform: linux/amd64
+    ports:
+      - 9090:9090
+      - 5222:5222
+      - 7777:7777
+    volumes:
+      - ./openfire:/var/lib/openfire
+    depends_on:
+      - db
+    restart: always
+# TODO Consider the following description examples
+#    volumes:
+#      - ./openfire/conf:/usr/share/openfire/conf
+#      - ./openfire/plugins:/usr/share/openfire/plugins
+#      - ./openfire/resources/security:/usr/share/openfire/resources/security
+#      - ./openfire/resources/database:/usr/share/openfire/resources/database
+#    environment:
+#      OPENFIRE_DB_HOST: ${OPENFIRE_DB_HOST}
+#      OPENFIRE_DB_PORT: ${OPENFIRE_DB_PORT}
+#      OPENFIRE_DB_NAME: ${OPENFIRE_DB_NAME}
+#      OPENFIRE_DB_USER: ${OPENFIRE_DB_USER}
+#      OPENFIRE_DB_PASSWORD: ${OPENFIRE_DB_PASSWORD}
+#      OPENFIRE_ADMIN_USER: ${OPENFIRE_ADMIN_USER}
+#      OPENFIRE_ADMIN_PASSWORD: ${OPENFIRE_ADMIN_PASSWORD}
+#      OPENFIRE_DOMAIN: ${OPENFIRE_DOMAIN}
+#      OPENFIRE_HOSTNAME: ${OPENFIRE_HOSTNAME}
+#      OPENFIRE_PORT: ${OPENFIRE_PORT}
+#      OPENFIRE_SECURE_PORT: ${OPENFIRE_SECURE_PORT}
+#      OPENFIRE_RESOURCE: ${OPENFIRE_RESOURCE}
+#      OPENFIRE_AUTH_PROVIDER: ${OPENFIRE_AUTH_PROVIDER}
+#      OPENFIRE_AUTH_PROVIDER_PROP: ${OPENFIRE_AUTH_PROVIDER_PROP}
+#      OPENFIRE_AUTH_PROVIDER_PROP_KEY: ${OPENFIRE_AUTH_PROVIDER_PROP_KEY}
+#      OPENFIRE_AUTH_PROVIDER_PROP_SECRET: ${OPENFIRE_AUTH_PROVIDER_PROP_SECRET}
+#      OPENFIRE_AUTH_PROVIDER_PROP_URL: ${OPENFIRE_AUTH_PROVIDER_PROP_URL}
+#      OPENFIRE_AUTH_PROVIDER_PROP_HOST: ${OPENFIRE_AUTH_PROVIDER_PROP
+  db:
+    container_name: openfire-db
+    build: .
+    platform: linux/amd64
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db/data:/var/lib/mysql
+    environment:
+      # TODO Thinking other ways
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
