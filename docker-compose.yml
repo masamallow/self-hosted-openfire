@@ -11,7 +11,7 @@ services:
       - ./openfire:/var/lib/openfire
     depends_on:
       - db
-    restart: always
+    restart: unless-stopped
 # TODO Consider the following description examples
 #    volumes:
 #      - ./openfire/conf:/usr/share/openfire/conf
@@ -51,3 +51,4 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: unless-stopped
